@@ -17,16 +17,18 @@ function onSubmit(event) {
   // For each field in the google form, grabs the data, and stores it into a local variable to be processed.
   for each (field in REPONSE) {
 
+    // Get the questi
     var question = field.getItem().getTitle();
     
     // One question can have multiple answers, as for example, there can be multiple screenshots in the same field (question).
     try {
       var answers = field.getResponse().match(/[\s\S]{1,1024}/g) || [];
     } catch (exception) {
-      var answers = field.getResponse();
+      var answers = [field.getResponse().toString()];
     }
 
-    if (answers == "") continue;
+    // If the user didn't answer a question, ignore that answer.
+    if (!answers.length) continue;
   
     // Formats each answer to a embeed field (https://discordapp.com/developers/docs/resources/channel#embed-object-embed-field-structure).
     for each (answer in answers) {
